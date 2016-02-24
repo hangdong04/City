@@ -1,8 +1,4 @@
 package phatthanaphong.city;
-
-/**
- * Created by Phatthanaphong on 23/2/2559.
- */
 import android.app.AlertDialog;
 import android.app.Service;
 import android.content.Context;
@@ -124,8 +120,6 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             latitude = location.getLatitude();
         }
-
-        // return latitude
         return latitude;
     }
 
@@ -136,9 +130,39 @@ public class GPSTracker extends Service implements LocationListener {
         if(location != null){
             longitude = location.getLongitude();
         }
-
-        // return longitude
         return longitude;
+    }
+
+    public double getAltitude(){
+        double altitude  = 0;
+        if(location != null){
+            altitude = location.getAltitude();
+        }
+        return altitude;
+    }
+
+    public float getAccuracy(){
+        float accuracy = 0;
+        if(location != null){
+            accuracy = location.getAccuracy();
+        }
+        return accuracy;
+    }
+
+    public float getSpeed(){
+        float speed = 0;
+        if(location != null){
+            speed = location.getSpeed();
+        }
+        return speed;
+    }
+
+    public long getTime(){
+        long time = 0;
+        if(location != null){
+            time = location.getTime();
+        }
+        return time;
     }
 
     /**
@@ -183,6 +207,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
+
     }
 
     @Override
