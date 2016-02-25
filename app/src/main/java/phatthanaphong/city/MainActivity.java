@@ -1,51 +1,77 @@
 package phatthanaphong.city;
 
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import de.greenrobot.event.EventBus;
+
 public class MainActivity extends AppCompatActivity{
+    public static final String TAG = "MainActivity";
     Button btnShowLocation;
-    GPSTracker gps;
     TextView textView;
+    Intent serviceIntent;
+    private EventBus eventBus = EventBus.getDefault();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // check if GPS enabled
+        // check if GPS enabled.
+        serviceIntent = new Intent(this, BackgroundService.class);
+
         btnShowLocation = (Button) findViewById(R.id.btnShowLocation);
         textView = (TextView)findViewById(R.id.textDetail);
 
-        // show location button click event
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
+    }
 
-            @Override
-            public void onClick(View arg0) {
-                // create class object
-                gps = new GPSTracker(MainActivity.this);
+    @Override
+    protected void onResume() {
+        if (!eventBus.isRegistered(this)){
+            eventBus.register(this);
+        }
+        Log.d(TAG, "onResume");
+        if (!isMyServiceRunning(BackgroundService.class)) {
+            Log.d(TAG, "onResume: StartBackkkkkkkkkkkkk");
+            startService(serviceIntent);
+        }
+        super.onResume();
+    }
 
-                // check if GPS enabled
-                if(gps.canGetLocation()){
+    @Override
+    protected void onPause() {
+        eventBus.unregister(this);
+        super.onPause();
+    }
 
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-                    double altitude = gps.getAltitude();
-                    float accuracy = gps.getAccuracy();
-                    float speed = gps.getSpeed();
-                    long time = gps.getTime();
-                    textView.setText("Your Location is - \nLat: " + latitude + "\nLong: " + longitude +"\nAlti"+altitude + "\nAcc"+accuracy+"\nSpeed"+speed+"\nTime"+time);
+    public void onEvent(NotifyLocationEvent notifyLocationEvent) {
+        updateUI();
+    }
+    private void updateUI(){
+        double latitude = BackgroundService.gps.getLatitude();
+        double longitude = BackgroundService.gps.getLongitude();
+        double altitude = BackgroundService.gps.getAltitude();
+        float accuracy = BackgroundService.gps.getAccuracy();
+        float speed = BackgroundService.gps.getSpeed();
+        long time = BackgroundService.gps.getTime();
+        Toast.makeText(this, "Update!", Toast.LENGTH_LONG).show();
+        textView.setText("Your Location is - \nLat: " + latitude + "\nLong: " + longitude +"\nAlti"+altitude + "\nAcc"+accuracy+"\nSpeed"+speed+"\nTime"+time);
+    }
 
-                }else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
-                }
-
+    private boolean isMyServiceRunning(Class<?> serviceClass) {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager
+                .getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
             }
-        });
+        }
+
+        return false;
     }
 }
