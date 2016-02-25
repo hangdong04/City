@@ -12,28 +12,33 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.util.Log;
 
+import de.greenrobot.event.EventBus;
+
 public class GPSTracker extends Service implements LocationListener {
 
     private final Context mContext;
-
+    public static LocationModel sLocationModel;
     // flag for GPS status
-    boolean isGPSEnabled = false;
+    private boolean isGPSEnabled = false;
 
     // flag for network status
     boolean isNetworkEnabled = false;
-
+    private EventBus eventBus = EventBus.getDefault();
     // flag for GPS status
     boolean canGetLocation = false;
 
     Location location; // location
-    double latitude; // latitude
-    double longitude; // longitude
-
+    private double latitude; // latitude
+    private double longitude; // longitude
+    private long time = 0;
+    private float speed = 0;
+    private float accuracy = 0;
+    private double altitude  = 0;
     // The minimum distance to change Updates in meters
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1; // 10 meters
 
     // The minimum time between updates in milliseconds
-    private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1; // 1 minute
+    private static final long MIN_TIME_BW_UPDATES = 1000; // 1 sec
 
     // Declaring a Location Manager
     protected LocationManager locationManager;
@@ -73,6 +78,10 @@ public class GPSTracker extends Service implements LocationListener {
                         if (location != null) {
                             latitude = location.getLatitude();
                             longitude = location.getLongitude();
+                            time = location.getTime();
+                            speed = location.getSpeed();
+                            accuracy = location.getAccuracy();
+                            altitude  = location.getAltitude();
                         }
                     }
                 }
@@ -90,6 +99,10 @@ public class GPSTracker extends Service implements LocationListener {
                             if (location != null) {
                                 latitude = location.getLatitude();
                                 longitude = location.getLongitude();
+                                time = location.getTime();
+                                speed = location.getSpeed();
+                                accuracy = location.getAccuracy();
+                                altitude  = location.getAltitude();
                             }
                         }
                     }
@@ -112,7 +125,9 @@ public class GPSTracker extends Service implements LocationListener {
             locationManager.removeUpdates(GPSTracker.this);
         }
     }
-
+    public boolean getGpsStatus(){
+        return isGPSEnabled;
+    }
     /**
      * Function to get latitude
      * */
@@ -206,8 +221,9 @@ public class GPSTracker extends Service implements LocationListener {
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-
+    public void onLocationChanged(Location loc) {
+        location = loc;
+        eventBus.postSticky(new NotifyLocationEvent(NotifyLocationEvent.LOCATION_CHANGE));
     }
 
     @Override
