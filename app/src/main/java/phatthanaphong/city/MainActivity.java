@@ -24,7 +24,6 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         // check if GPS enabled.
         serviceIntent = new Intent(this, BackgroundService.class);
-
         btnShowLocation = (Button) findViewById(R.id.btnShowLocation);
         textView = (TextView)findViewById(R.id.textDetail);
 

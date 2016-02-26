@@ -20,7 +20,7 @@ public class GPSTracker extends Service implements LocationListener {
     public static LocationModel sLocationModel;
     // flag for GPS status
     private boolean isGPSEnabled = false;
-
+    DatabaseHandler db;
     // flag for network status
     boolean isNetworkEnabled = false;
     private EventBus eventBus = EventBus.getDefault();
@@ -45,6 +45,7 @@ public class GPSTracker extends Service implements LocationListener {
 
     public GPSTracker(Context context) {
         this.mContext = context;
+        db = new DatabaseHandler(context);
         getLocation();
     }
 
@@ -224,6 +225,16 @@ public class GPSTracker extends Service implements LocationListener {
     public void onLocationChanged(Location loc) {
         location = loc;
         eventBus.postSticky(new NotifyLocationEvent(NotifyLocationEvent.LOCATION_CHANGE));
+        Log.d("Insert: ", "Inserting ..");
+        db.addLocation(new LocationModel(location.getLatitude(),location.getLongitude()
+        ,location.getAltitude(),location.getSpeed(),location.getAccuracy(),location.getTime()));
+        try{
+            Log.d("Count:",""+db.getLocsCount());
+        }catch (Exception e){
+
+        }
+
+
     }
 
     @Override

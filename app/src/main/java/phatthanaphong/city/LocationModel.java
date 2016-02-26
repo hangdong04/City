@@ -10,6 +10,17 @@ public class LocationModel {
     private float speed;
     private float accuracy;
     private long time;
+    private int id;
+
+    public LocationModel(int id,double latitude,double longitude,double altitude,float speed,float accuracy,long time){
+        this.id = id;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.altitude = altitude;
+        this.speed = speed;
+        this.accuracy = accuracy;
+        this.time = time;
+    }
 
     public LocationModel(double latitude,double longitude,double altitude,float speed,float accuracy,long time){
         this.latitude = latitude;
@@ -18,6 +29,10 @@ public class LocationModel {
         this.speed = speed;
         this.accuracy = accuracy;
         this.time = time;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public long getTime() {
