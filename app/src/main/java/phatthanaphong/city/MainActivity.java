@@ -11,6 +11,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionMenu;
+
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity{
@@ -18,6 +20,7 @@ public class MainActivity extends AppCompatActivity{
     Button button;
     TextView textView;
     Intent serviceIntent;
+
     private EventBus eventBus = EventBus.getDefault();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,8 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         // check if GPS enabled.
         serviceIntent = new Intent(this, BackgroundService.class);
+        FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
+        menuLabelsRight.clearFocus();
         button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
