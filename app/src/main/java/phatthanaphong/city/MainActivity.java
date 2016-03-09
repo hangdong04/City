@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +15,7 @@ import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity{
     public static final String TAG = "MainActivity";
-    Button btnShowLocation;
+    Button button;
     TextView textView;
     Intent serviceIntent;
     private EventBus eventBus = EventBus.getDefault();
@@ -24,7 +25,13 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         // check if GPS enabled.
         serviceIntent = new Intent(this, BackgroundService.class);
-        btnShowLocation = (Button) findViewById(R.id.btnShowLocation);
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                eventBus.post(new BackupDatabaseEvent(BackupDatabaseEvent.BACKUP_DATABASE));
+            }
+        });
         textView = (TextView)findViewById(R.id.textDetail);
 
     }

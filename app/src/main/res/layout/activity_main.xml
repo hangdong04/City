@@ -10,10 +10,10 @@ android:paddingTop="@dimen/activity_vertical_margin"
 tools:context="phatthanaphong.city.MainActivity">
 
     <Button
-        android:id="@+id/btnShowLocation"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
+        android:text="Save"
         />
     <TextView
         android:id="@+id/textDetail"

@@ -233,8 +233,6 @@ public class GPSTracker extends Service implements LocationListener {
         }catch (Exception e){
 
         }
-
-
     }
 
     @Override

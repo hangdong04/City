@@ -12,11 +12,18 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
@@ -70,11 +77,15 @@ public class BackgroundService extends Service {
 //        locationdb = new DBUtil(backgroundService);
         /////// create preference for get user data
         myPreference = new MyPreference(backgroundService);
+        if (!eventBus.isRegistered(this)){
+            eventBus.register(this);
+        }
 //        running_background();
     }
 
     @Override
     public void onDestroy() {
+        eventBus.unregister(this);
         stop_running_background();
     }
 
@@ -98,8 +109,63 @@ public class BackgroundService extends Service {
 //
 //        }
     }
+    public void onEvent(BackupDatabaseEvent backupDatabaseEvent) {
+        backupDBonSDcard(backgroundService,"GpsLog.db");
+    }
+    public static void backupDBonSDcard(Context context, String dbName){
+        String DB_PATH = context.getDatabasePath(dbName).getPath();
+        Log.d("DB_PATH:" , DB_PATH);
+        if(checkDataBase(DB_PATH)){
+            InputStream myInput;
+            try {
+                Log.e("DB","[backupDBonSDcard] saving file to SDCARD");
+                myInput = new FileInputStream(DB_PATH);
 
+                // Path to the just created empty db
+                String outFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + java.io.File.separator + dbName;
 
+                //Open the empty db as the output stream
+                OutputStream myOutput = null;
+                try {
+                    myOutput = new FileOutputStream(outFileName);
+                    //transfer bytes from the inputfile to the outputfile
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = myInput.read(buffer))>0){
+                        myOutput.write(buffer, 0, length);
+                    }
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                } finally {
+                    //Close the streams
+                    try {
+
+                        if (myOutput != null) {
+                            myOutput.flush();
+                            myOutput.close();
+                        }
+
+                        if (myInput != null)
+                            myInput.close();
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+                }
+            } catch (FileNotFoundException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+
+        }else{
+            Log.d("DB",dbName+" not found");
+        }
+    }
+
+    public static boolean checkDataBase(String fileName) {
+        java.io.File dbFile = new java.io.File(fileName);
+        return dbFile.exists();
+    }
     private void stop_running_background() {
         if (isRunningBackground) {
             Log.w(getClass().getName(), "isRunningBackground to stop()!");
