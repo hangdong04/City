@@ -11,33 +11,99 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends AppCompatActivity{
     public static final String TAG = "MainActivity";
-    Button button;
+    Button saveButton;
+    Button startButton;
     TextView textView;
+    TextView header;
+    String title;
     Intent serviceIntent;
+    Boolean start = false;
+    FloatingActionMenu mainMenu;
+    FloatingActionButton walkButton;
+    FloatingActionButton biButton;
+    FloatingActionButton motorButton;
+    FloatingActionButton carButton;
+    FloatingActionButton transitButton;
 
     private EventBus eventBus = EventBus.getDefault();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        // check if GPS enabled.
         serviceIntent = new Intent(this, BackgroundService.class);
-        FloatingActionMenu menuLabelsRight = (FloatingActionMenu) findViewById(R.id.menu_labels_right);
-        menuLabelsRight.clearFocus();
-        button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
+        mainMenu = (FloatingActionMenu) findViewById(R.id.mainMenu);
+        saveButton = (Button) findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 eventBus.post(new BackupDatabaseEvent(BackupDatabaseEvent.BACKUP_DATABASE));
             }
         });
+        startButton  = (Button)findViewById(R.id.startButton);
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (start){
+                    start = false;
+                    stopProcess();
+                    startButton.setText(R.string.start_text);
+                }else {
+                    start = true;
+                    startProcess();
+                    startButton.setText(R.string.stop_text);
+                }
+            }
+        });
         textView = (TextView)findViewById(R.id.textDetail);
+        header = (TextView) findViewById(R.id.header);
+        walkButton = (FloatingActionButton)findViewById(R.id.walkButton);
+        walkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.walk_mode);
+                header.setText(title);
+            }
+        });
+        biButton = (FloatingActionButton)findViewById(R.id.bicycleButton);
+        biButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.bicycle_mode);
+                header.setText(title);
+            }
+        });
+        motorButton = (FloatingActionButton)findViewById(R.id.motorcycleButton);
+        motorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.motorcycle_mode);
+                header.setText(title);
+            }
+        });
+        carButton = (FloatingActionButton)findViewById(R.id.carButton);
+        carButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.car_mode);
+                header.setText(title);
+            }
+        });
+        transitButton = (FloatingActionButton)findViewById(R.id.transitButton);
+        transitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.transit_mode);
+                header.setText(title);
+            }
+        });
 
     }
 
@@ -47,13 +113,23 @@ public class MainActivity extends AppCompatActivity{
             eventBus.register(this);
         }
         Log.d(TAG, "onResume");
-        if (!isMyServiceRunning(BackgroundService.class)) {
-            Log.d(TAG, "onResume: StartBackkkkkkkkkkkkk");
-            startService(serviceIntent);
-        }
+        startService(serviceIntent);
         super.onResume();
     }
 
+    private void startProcess(){
+        if (!isMyServiceRunning(BackgroundService.class)) {
+            Toast.makeText(this,"Start",Toast.LENGTH_SHORT).show();
+            startService(serviceIntent);
+        }
+    }
+
+    private void stopProcess(){
+        if (isMyServiceRunning(BackgroundService.class)) {
+            Toast.makeText(this,"Stop",Toast.LENGTH_SHORT).show();
+            stopService(serviceIntent);
+        }
+    }
     @Override
     protected void onPause() {
         eventBus.unregister(this);
@@ -66,12 +142,10 @@ public class MainActivity extends AppCompatActivity{
     private void updateUI(){
         double latitude = BackgroundService.gps.getLatitude();
         double longitude = BackgroundService.gps.getLongitude();
-        double altitude = BackgroundService.gps.getAltitude();
         float accuracy = BackgroundService.gps.getAccuracy();
         float speed = BackgroundService.gps.getSpeed();
-        long time = BackgroundService.gps.getTime();
-        Toast.makeText(this, "Update!", Toast.LENGTH_LONG).show();
-        textView.setText("Your Location is - \nLat: " + latitude + "\nLong: " + longitude +"\nAlti"+altitude + "\nAcc"+accuracy+"\nSpeed"+speed+"\nTime"+time);
+        Toast.makeText(this, "Update!", Toast.LENGTH_SHORT).show();
+        textView.setText("Your Location is \nLatitude: " + latitude + "\nLongitude: " + longitude +"\nAccuracy: "+accuracy+"\nSpeed: "+speed);
     }
 
     private boolean isMyServiceRunning(Class<?> serviceClass) {
@@ -82,7 +156,6 @@ public class MainActivity extends AppCompatActivity{
                 return true;
             }
         }
-
         return false;
     }
 }
