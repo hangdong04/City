@@ -25,18 +25,22 @@ public class MainActivity extends AppCompatActivity{
     String title;
     Intent serviceIntent;
     Boolean start = false;
+    public static String label;
     FloatingActionMenu mainMenu;
     FloatingActionButton walkButton;
     FloatingActionButton biButton;
     FloatingActionButton motorButton;
     FloatingActionButton carButton;
     FloatingActionButton transitButton;
+    FloatingActionButton runningButton;
+    MyPreference myPreference;
 
     private EventBus eventBus = EventBus.getDefault();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        myPreference = new MyPreference(this);
         serviceIntent = new Intent(this, BackgroundService.class);
         mainMenu = (FloatingActionMenu) findViewById(R.id.mainMenu);
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -44,22 +48,6 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 eventBus.post(new BackupDatabaseEvent(BackupDatabaseEvent.BACKUP_DATABASE));
-            }
-        });
-        startButton  = (Button)findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (start){
-                    start = false;
-                    stopProcess();
-                    startButton.setText(R.string.start_text);
-                }else {
-                    start = true;
-                    startProcess();
-                    startButton.setText(R.string.stop_text);
-                }
             }
         });
         textView = (TextView)findViewById(R.id.textDetail);
@@ -70,6 +58,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 title = getString(R.string.header_mode)+getString(R.string.walk_mode);
                 header.setText(title);
+                myPreference.saveLabel(getString(R.string.walk_mode));
             }
         });
         biButton = (FloatingActionButton)findViewById(R.id.bicycleButton);
@@ -78,6 +67,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 title = getString(R.string.header_mode)+getString(R.string.bicycle_mode);
                 header.setText(title);
+                myPreference.saveLabel(getString(R.string.bicycle_mode));
             }
         });
         motorButton = (FloatingActionButton)findViewById(R.id.motorcycleButton);
@@ -86,6 +76,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 title = getString(R.string.header_mode)+getString(R.string.motorcycle_mode);
                 header.setText(title);
+                myPreference.saveLabel(getString(R.string.motorcycle_mode));
             }
         });
         carButton = (FloatingActionButton)findViewById(R.id.carButton);
@@ -94,6 +85,7 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 title = getString(R.string.header_mode)+getString(R.string.car_mode);
                 header.setText(title);
+                myPreference.saveLabel(getString(R.string.car_mode));
             }
         });
         transitButton = (FloatingActionButton)findViewById(R.id.transitButton);
@@ -102,6 +94,16 @@ public class MainActivity extends AppCompatActivity{
             public void onClick(View v) {
                 title = getString(R.string.header_mode)+getString(R.string.transit_mode);
                 header.setText(title);
+                myPreference.saveLabel(getString(R.string.transit_mode));
+            }
+        });
+        runningButton = (FloatingActionButton)findViewById(R.id.runButton);
+        runningButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                title = getString(R.string.header_mode)+getString(R.string.running_mode);
+                header.setText(title);
+                myPreference.saveLabel(getString(R.string.running_mode));
             }
         });
 
@@ -112,23 +114,11 @@ public class MainActivity extends AppCompatActivity{
         if (!eventBus.isRegistered(this)){
             eventBus.register(this);
         }
-        Log.d(TAG, "onResume");
-        startService(serviceIntent);
-        super.onResume();
-    }
-
-    private void startProcess(){
-        if (!isMyServiceRunning(BackgroundService.class)) {
-            Toast.makeText(this,"Start",Toast.LENGTH_SHORT).show();
+        if (!isMyServiceRunning(BackgroundService.class)){
             startService(serviceIntent);
         }
-    }
-
-    private void stopProcess(){
-        if (isMyServiceRunning(BackgroundService.class)) {
-            Toast.makeText(this,"Stop",Toast.LENGTH_SHORT).show();
-            stopService(serviceIntent);
-        }
+        Log.d(TAG, "onResume");
+        super.onResume();
     }
     @Override
     protected void onPause() {

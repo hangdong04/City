@@ -6,26 +6,26 @@ package phatthanaphong.city;
 public class LocationModel {
     private double latitude;
     private double longitude;
-    private double altitude;
     private float speed;
     private float accuracy;
     private long time;
     private int id;
+    private String label;
 
-    public LocationModel(int id,double latitude,double longitude,double altitude,float speed,float accuracy,long time){
+    public LocationModel(String label, int id,double latitude,double longitude,float speed,float accuracy,long time){
+        this.label = label;
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.altitude = altitude;
         this.speed = speed;
         this.accuracy = accuracy;
         this.time = time;
     }
 
-    public LocationModel(double latitude,double longitude,double altitude,float speed,float accuracy,long time){
+    public LocationModel(String label, double latitude,double longitude,float speed,float accuracy,long time){
+        this.label = label;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.altitude = altitude;
         this.speed = speed;
         this.accuracy = accuracy;
         this.time = time;
@@ -47,12 +47,15 @@ public class LocationModel {
         return longitude;
     }
 
-    public double getAltitude() {
-        return altitude;
+    public float getSpeed() {
+        return speed *3.6f;
+    }
+    public String getLabel() {
+        return label;
     }
 
-    public float getSpeed() {
-        return speed;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
     public float getAccuracy() {

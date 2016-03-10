@@ -26,7 +26,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
-    private static final String KEY_ALTITUDE = "altitude";
+    private static final String KEY_LABEL = "label";
     private static final String KEY_SPEED = "speed";
     private static final String KEY_ACCURACY = "accuracy";
     private static final String KEY_TIME = "time";
@@ -42,8 +42,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_LOC + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LATITUDE + " TEXT,"
-                + KEY_LONGITUDE + " TEXT," + KEY_ALTITUDE + " TEXT,"
+                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LABEL + " TEXT,"
+                + KEY_LATITUDE + " TEXT," + KEY_LONGITUDE + " TEXT,"
                 + KEY_SPEED + " TEXT," + KEY_ACCURACY + " TEXT,"
                 + KEY_TIME + " TEXT" + ");";
         db.execSQL(CREATE_CONTACTS_TABLE);
@@ -66,9 +66,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addLocation(LocationModel location) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_LABEL,location.getLabel());
         values.put(KEY_LATITUDE, location.getLatitude());
         values.put(KEY_LONGITUDE, location.getLongitude());
-        values.put(KEY_ALTITUDE, location.getAltitude());
         values.put(KEY_SPEED, location.getSpeed());
         values.put(KEY_ACCURACY, location.getAccuracy()); // Contact Name
         values.put(KEY_TIME, location.getTime()); // Contact Phone

@@ -6,6 +6,7 @@
     <string name="motorcycle_mode">Motorcycle</string>
     <string name="car_mode">Car</string>
     <string name="transit_mode">Transit</string>
+    <string name="running_mode">Running</string>
     <string name="save_database">Save Database</string>
     <string name="header_text">Tap + Button to select mode</string>
     <string name="start_text">Start</string>

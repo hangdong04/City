@@ -119,6 +119,7 @@ public class BackgroundService extends Service {
             InputStream myInput;
             try {
                 Log.e("DB","[backupDBonSDcard] saving file to SDCARD");
+                Toast.makeText(backgroundService,"Successful",Toast.LENGTH_SHORT).show();
                 myInput = new FileInputStream(DB_PATH);
 
                 // Path to the just created empty db

@@ -23,7 +23,7 @@ public class MyPreference {
 
 	private static final String KEY_Location = "last_location";
 	private static final String KEY_APP_STATE = "0";
-
+	private static final String KEY_LABEL = "label";
 	private static final String KEY_BATTERY_LEVEL = "battery_level";
 	private static final String KEY_LAST_TIME_CONNECTED = "last_time_connected";
 	private static final String KEY_ALERT_ID = "alert_id";
@@ -55,7 +55,13 @@ public class MyPreference {
 		editor.putInt(KEY_APP_STATE, state);
 		editor.commit();
 	}
-
+	public void saveLabel(String label) {
+		editor.putString(KEY_LABEL, label);
+		editor.commit();
+	}
+	public String getLabel() {
+		return pref.getString(KEY_LABEL, "idle");
+	}
 	public void createAlertID(String alert_id) {
 		editor.putString(KEY_ALERT_ID, alert_id);
 		editor.commit();
