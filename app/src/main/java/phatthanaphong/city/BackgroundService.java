@@ -109,9 +109,11 @@ public class BackgroundService extends Service {
 //
 //        }
     }
+
     public void onEvent(BackupDatabaseEvent backupDatabaseEvent) {
         backupDBonSDcard(backgroundService,"GpsLog.db");
     }
+
     public static void backupDBonSDcard(Context context, String dbName){
         String DB_PATH = context.getDatabasePath(dbName).getPath();
         Log.d("DB_PATH:" , DB_PATH);
