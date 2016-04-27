@@ -44,6 +44,8 @@ public class LocationService extends Service implements
         super.onCreate();
     }
 
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // if we are currently trying to get a location and the alarm manager has called this again,
@@ -53,14 +55,13 @@ public class LocationService extends Service implements
             startTracking();
         }
 
-        return START_STICKY_COMPATIBILITY;
+        return START_NOT_STICKY;
     }
 
     private void startTracking() {
         Log.d(TAG, "startTracking");
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         if (googleApiAvailability.isGooglePlayServicesAvailable(this) == ConnectionResult.SUCCESS) {
-
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
@@ -123,9 +124,9 @@ public class LocationService extends Service implements
         Log.d(TAG, "onConnected");
 
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(10000); // milliseconds
-        locationRequest.setFastestInterval(6000); // the fastest rate in milliseconds at which your app can handle location updates
-        locationRequest.setExpirationTime(12000);
+        locationRequest.setInterval(0); // milliseconds
+        locationRequest.setFastestInterval(0); // the fastest rate in milliseconds at which your app can handle location updates
+        locationRequest.setExpirationTime(4000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
         LocationServices.FusedLocationApi.requestLocationUpdates(
