@@ -124,7 +124,7 @@ public class LocationService extends Service implements
 
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000); // milliseconds
-        locationRequest.setFastestInterval(2000); // the fastest rate in milliseconds at which your app can handle location updates
+        locationRequest.setFastestInterval(6000); // the fastest rate in milliseconds at which your app can handle location updates
         locationRequest.setExpirationTime(12000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
