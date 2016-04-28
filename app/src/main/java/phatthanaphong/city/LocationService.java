@@ -5,15 +5,19 @@ import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResult;
 
 import de.greenrobot.event.EventBus;
 
@@ -35,12 +39,20 @@ public class LocationService extends Service implements
     private boolean currentlyProcessingLocation = false;
     private LocationRequest locationRequest;
     private GoogleApiClient googleApiClient;
+    GoogleApiClient mGoogleApiClient;
 
     @Override
     public void onCreate() {
         Toast.makeText(this, "Service created!", Toast.LENGTH_LONG).show();
         db = new DatabaseHandler(this);
         myPreference = new MyPreference(this);
+        if (mGoogleApiClient == null) {
+            mGoogleApiClient = new GoogleApiClient.Builder(this)
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+        }
         super.onCreate();
     }
 
@@ -50,12 +62,12 @@ public class LocationService extends Service implements
     public int onStartCommand(Intent intent, int flags, int startId) {
         // if we are currently trying to get a location and the alarm manager has called this again,
         // no need to start processing a new location.
-        if (!currentlyProcessingLocation) {
-            currentlyProcessingLocation = true;
-            startTracking();
-        }
-
-        return START_NOT_STICKY;
+//        if (!currentlyProcessingLocation) {
+//            currentlyProcessingLocation = true;
+//
+//        }
+        mGoogleApiClient.connect();
+        return START_STICKY;
     }
 
     private void startTracking() {
@@ -75,6 +87,8 @@ public class LocationService extends Service implements
             Log.e(TAG, "unable to connect to google play services.");
         }
     }
+
+
 
     @Override
     public void onDestroy() {
@@ -113,7 +127,21 @@ public class LocationService extends Service implements
             googleApiClient.disconnect();
         }
     }
+    protected void startLocationUpdates() {
+        LocationRequest mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(3000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(mLocationRequest);
+        PendingResult<LocationSettingsResult> result =
+                LocationServices.SettingsApi.checkLocationSettings(mGoogleApiClient,
+                        builder.build());
+        Log.d("Location",""+result.toString());
 
+        LocationServices.FusedLocationApi.requestLocationUpdates(
+                mGoogleApiClient,mLocationRequest,this);
+    }
     /**
      * Called by Location Services when the request to connect the
      * client finishes successfully. At this point, you can
@@ -122,23 +150,14 @@ public class LocationService extends Service implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected");
-
-        locationRequest = LocationRequest.create();
-        locationRequest.setInterval(0); // milliseconds
-        locationRequest.setFastestInterval(0); // the fastest rate in milliseconds at which your app can handle location updates
-        locationRequest.setExpirationTime(4000);
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-        LocationServices.FusedLocationApi.requestLocationUpdates(
-                googleApiClient, locationRequest, this);
+        startLocationUpdates();
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e(TAG, "onConnectionFailed");
 
-        stopLocationUpdates();
-        stopSelf();
+
     }
 
     @Override
