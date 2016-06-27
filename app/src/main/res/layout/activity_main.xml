@@ -1,102 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <RelativeLayout
-        android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:layout_margin="24dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:text="@string/header_text"
+        android:textSize="18sp"
+        android:visibility="gone" />
+
+    <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        android:id="@+id/spinner"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <TextView
-            android:id="@+id/header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="20dp"
-            android:textSize="24sp"
-            android:text="@string/header_text"
-            />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:hint="@string/hint_mode"
+        android:textColorHint="#05ab9a"
+        android:visibility="visible"
+        app:met_floatingLabel="normal" />
 
-        <TextView
-            android:id="@+id/textDetail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="20dp"
-            android:textSize="20sp"
-            android:layout_below="@+id/header"/>
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_text"
+        android:visibility="visible"/>
+    <Button
+        android:id="@+id/startButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_text"
+        android:visibility="gone"
+        />
 
-        <Button
-            android:id="@+id/saveButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_below="@+id/textDetail"
-            android:layout_centerHorizontal="true"
-            android:text="Save"
-            />
+    <TextView
+        android:id="@+id/textDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="20dp"
+        android:textSize="20sp"
+        android:visibility="gone" />
 
-    </RelativeLayout>
-    <com.github.clans.fab.FloatingActionMenu
-        android:id="@+id/mainMenu"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        fab:menu_labels_ellipsize="end"
-        fab:menu_labels_singleLine="true"
-        fab:menu_labels_position="right"
-        android:paddingRight="10dp"
-        android:paddingBottom="10dp"
-        android:paddingLeft="10dp"
-        android:layout_below="@+id/textDetail">
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/walkButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/walk_mode" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/runButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/running_mode" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/bicycleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/bicycle_mode" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/motorcycleButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/motorcycle_mode" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/carButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/car_mode" />
-
-        <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/transitButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_edit"
-            fab:fab_size="mini"
-            fab:fab_label="@string/transit_mode" />
-
-    </com.github.clans.fab.FloatingActionMenu>
-
-</FrameLayout>
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:text="@string/save_text"
+        android:visibility="gone"/>
+</LinearLayout>

@@ -57,7 +57,6 @@ public class LocationService extends Service implements
     }
 
 
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         // if we are currently trying to get a location and the alarm manager has called this again,
@@ -92,6 +91,8 @@ public class LocationService extends Service implements
 
     @Override
     public void onDestroy() {
+        Toast.makeText(this, "Service Destroyed", Toast.LENGTH_SHORT).show();
+        stopLocationUpdates();
         super.onDestroy();
     }
 
@@ -126,7 +127,9 @@ public class LocationService extends Service implements
         if (googleApiClient != null && googleApiClient.isConnected()) {
             googleApiClient.disconnect();
         }
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, this);
     }
+
     protected void startLocationUpdates() {
         LocationRequest mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(3000);

@@ -16,7 +16,8 @@ public class MyPreference {
 
 	// Sharedpref file name
 	private static final String PREF_NAME = "Revolar";
-
+	private static final String APP_STATE = "app_state";
+	private static final String BUTTON_STATE = "button_state";
 
 	// User value (make variable public to access from outside)
 	public static final String KEY_LOCK_SCAN = "lockScan";
@@ -40,6 +41,23 @@ public class MyPreference {
 	public MyPreference(Context context) {
 		pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
 		editor = pref.edit();
+	}
+
+	public void saveState(int state){
+		editor.putInt(APP_STATE, state);
+		editor.commit();
+	}
+
+	public int getState(){
+		return pref.getInt(APP_STATE ,0);
+	}
+
+	public void saveButtonState(int state){
+		editor.putInt(BUTTON_STATE,state);
+		editor.commit();
+	}
+	public int getButtonState(){
+		return pref.getInt(BUTTON_STATE, 0);
 	}
 
 	public void lockScan(boolean lock) {

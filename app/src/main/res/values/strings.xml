@@ -11,4 +11,8 @@
     <string name="header_text">Tap + Button to select mode</string>
     <string name="start_text">Start</string>
     <string name="stop_text">Stop</string>
+    <string name="hint_mode">Tap to select Transportation Mode</string>
+    <string name="save_text">Save</string>
+    <string name="submit_text">Submit</string>
+    <string name="spinner_error">Please select Transport mode</string>
 </resources>
