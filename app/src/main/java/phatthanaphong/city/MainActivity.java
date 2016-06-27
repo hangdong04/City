@@ -3,10 +3,12 @@ package phatthanaphong.city;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -21,6 +24,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.StreamCorruptedException;
+import java.util.Random;
 
 import de.greenrobot.event.EventBus;
 
@@ -36,6 +40,7 @@ public class MainActivity extends AppCompatActivity{
     String mode;
     MaterialBetterSpinner spinner;
     Button startButton;
+    Button email;
 
     private EventBus eventBus = EventBus.getDefault();
     @Override
@@ -91,6 +96,13 @@ public class MainActivity extends AppCompatActivity{
         });
         textView = (TextView)findViewById(R.id.textDetail);
         header = (TextView) findViewById(R.id.header);
+        email = (Button)findViewById(R.id.email);
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendEmail(MainActivity.this);
+            }
+        });
     }
     private void init(){
         if (myPreference.getButtonState() == 0){
@@ -110,6 +122,11 @@ public class MainActivity extends AppCompatActivity{
         }
         Log.d(TAG, "onResume");
         super.onResume();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
@@ -169,7 +186,21 @@ public class MainActivity extends AppCompatActivity{
         java.io.File dbFile = new java.io.File(fileName);
         return dbFile.exists();
     }
+    private void sendEmail(Context ctx){
+        File backupDB = null;
+        backupDB = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "GpsLog.db");
+        Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
+        emailIntent.setType("*/*");
+        emailIntent.putExtra(android.content.Intent.EXTRA_EMAIL,
+                new String[] { "phatthanaphong_th@cmu.ac.th" });
 
+        Random r = new Random();
+
+        emailIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                "Local db " + r.nextInt());
+        emailIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(backupDB));
+        ctx.startActivity(Intent.createChooser(emailIntent, "Export database"));
+    }
     private void backupDBonSDcard(Context context, String dbName){
         String DB_PATH = context.getDatabasePath(dbName).getPath();
         Log.d("DB_PATH:" , DB_PATH);
