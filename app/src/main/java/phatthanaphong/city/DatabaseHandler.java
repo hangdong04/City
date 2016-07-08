@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 /**
  * Created by phatthanaphong on 26/2/2559.
@@ -30,6 +31,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String KEY_SPEED = "speed";
     private static final String KEY_ACCURACY = "accuracy";
     private static final String KEY_TIME = "time";
+    private static final String KEY_BARING = "bering";
     private SQLiteDatabase sqliteDatabaseInstance_ = null;
 
     public DatabaseHandler(Context context) {
@@ -45,7 +47,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
                 + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LABEL + " TEXT,"
                 + KEY_LATITUDE + " TEXT," + KEY_LONGITUDE + " TEXT,"
                 + KEY_SPEED + " TEXT," + KEY_ACCURACY + " TEXT,"
-                + KEY_TIME + " TEXT" + ");";
+                + KEY_BARING + " TEXT,"+ KEY_TIME + " TEXT" + ");";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -72,10 +74,17 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         values.put(KEY_SPEED, location.getSpeed());
         values.put(KEY_ACCURACY, location.getAccuracy()); // Contact Name
         values.put(KEY_TIME, location.getTime()); // Contact Phone
+        values.put(KEY_BARING, location.getAngle());
 
         // Inserting Row
         db.insert(TABLE_LOC, null, values);
         db.close(); // Closing database connection
+    }
+
+    void flushLocation(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_LOC,null,null);
+        db.close();
     }
 //
 //    // Getting single contact

@@ -114,7 +114,7 @@ public class LocationService extends Service implements
 
                 Log.d("Insert: ", "Inserting ..");
                 locationModel = new LocationModel(myPreference.getLabel(),location.getLatitude(),location.getLongitude()
-                        ,location.getSpeed(),location.getAccuracy(),location.getTime());
+                        ,location.getSpeed(),location.getAccuracy(),location.getTime(),location.getBearing());
                 eventBus.postSticky(new NotifyLocationEvent(NotifyLocationEvent.LOCATION_CHANGE));
                 db.addLocation(locationModel);
 

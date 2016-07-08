@@ -12,7 +12,9 @@
     <string name="start_text">Start</string>
     <string name="stop_text">Stop</string>
     <string name="hint_mode">Tap to select Transportation Mode</string>
-    <string name="save_text">Save</string>
+    <string name="save_text">Export Log</string>
     <string name="submit_text">Submit</string>
     <string name="spinner_error">Please select Transport mode</string>
+    <string name="send_log">Send Log</string>
+    <string name="clear_log">Clear Log</string>
 </resources>

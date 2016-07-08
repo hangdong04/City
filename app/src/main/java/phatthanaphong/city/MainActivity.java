@@ -9,6 +9,8 @@ import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -40,7 +42,7 @@ public class MainActivity extends AppCompatActivity{
     String mode;
     MaterialBetterSpinner spinner;
     Button startButton;
-    Button email;
+    DatabaseHandler db;
 
     private EventBus eventBus = EventBus.getDefault();
     @Override
@@ -48,6 +50,7 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myPreference = new MyPreference(this);
+        db = new DatabaseHandler(this);
         serviceIntent =new Intent(this, LocationService.class);
         myPreference.saveState(0);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
@@ -96,13 +99,6 @@ public class MainActivity extends AppCompatActivity{
         });
         textView = (TextView)findViewById(R.id.textDetail);
         header = (TextView) findViewById(R.id.header);
-        email = (Button)findViewById(R.id.email);
-        email.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendEmail(MainActivity.this);
-            }
-        });
     }
     private void init(){
         if (myPreference.getButtonState() == 0){
@@ -126,7 +122,21 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        return super.onCreateOptionsMenu(menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId())
+        {
+            case R.id.send_log:
+                sendEmail(this);
+            case R.id.clear_log:
+                flushLog();
+        }
+        return true;
     }
 
     @Override
@@ -167,7 +177,7 @@ public class MainActivity extends AppCompatActivity{
         double longitude = location.getLongitude();
         float accuracy = location.getAccuracy();
         float speed = location.getSpeed();
-        Toast.makeText(this, "Update!", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Update!", Toast.LENGTH_SHORT).show();
         textView.setText("Your Location is \nLatitude: " + latitude + "\nLongitude: " + longitude +"\nAccuracy: "+accuracy+"\nSpeed: "+speed);
     }
 
@@ -186,6 +196,11 @@ public class MainActivity extends AppCompatActivity{
         java.io.File dbFile = new java.io.File(fileName);
         return dbFile.exists();
     }
+
+    private void flushLog(){
+        db.flushLocation();
+    }
+
     private void sendEmail(Context ctx){
         File backupDB = null;
         backupDB = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "GpsLog.db");

@@ -10,9 +10,11 @@ public class LocationModel {
     private float accuracy;
     private long time;
     private int id;
+
+    private float angle;
     private String label;
 
-    public LocationModel(String label, int id,double latitude,double longitude,float speed,float accuracy,long time){
+    public LocationModel(String label, int id,double latitude,double longitude,float speed,float accuracy,long time,float angle){
         this.label = label;
         this.id = id;
         this.latitude = latitude;
@@ -20,15 +22,24 @@ public class LocationModel {
         this.speed = speed;
         this.accuracy = accuracy;
         this.time = time;
+        this.angle = angle;
     }
 
-    public LocationModel(String label, double latitude,double longitude,float speed,float accuracy,long time){
+    public LocationModel(String label, double latitude,double longitude,float speed,float accuracy,long time, float angle){
         this.label = label;
         this.latitude = latitude;
         this.longitude = longitude;
         this.speed = speed;
         this.accuracy = accuracy;
         this.time = time;
+        this.angle = angle;
+    }
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
     }
 
     public int getId() {
