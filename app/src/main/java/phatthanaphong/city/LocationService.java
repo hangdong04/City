@@ -112,8 +112,9 @@ public class LocationService extends Service implements
             if (location.getAccuracy() < 500.0f) {
 //                stopLocationUpdates();
 
-                Log.d("Insert: ", "Inserting ..");
-                locationModel = new LocationModel(myPreference.getLabel(),location.getLatitude(),location.getLongitude()
+                Log.d("Insert: ", "Inserting .."+myPreference.getNum());
+
+                locationModel = new LocationModel(myPreference.getNum(),myPreference.getLabel(),location.getLatitude(),location.getLongitude()
                         ,location.getSpeed(),location.getAccuracy(),location.getTime(),location.getBearing());
                 eventBus.postSticky(new NotifyLocationEvent(NotifyLocationEvent.LOCATION_CHANGE));
                 db.addLocation(locationModel);

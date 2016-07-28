@@ -43,11 +43,13 @@ public class MainActivity extends AppCompatActivity{
     MaterialBetterSpinner spinner;
     Button startButton;
     DatabaseHandler db;
-
+    int num;
     private EventBus eventBus = EventBus.getDefault();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.d("TAG", "onCreate");
         setContentView(R.layout.activity_main);
         myPreference = new MyPreference(this);
         db = new DatabaseHandler(this);
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity{
         myPreference.saveState(0);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_dropdown_item_1line, MODELIST);
+        num = myPreference.getNum();
         spinner = (MaterialBetterSpinner)findViewById(R.id.spinner);
         spinner.setAdapter(arrayAdapter);
         submitButton = (Button)findViewById(R.id.submitButton);
@@ -93,6 +96,7 @@ public class MainActivity extends AppCompatActivity{
                     myPreference.saveState(0);
                     init();
                     updateUI();
+                    myPreference.saveNum(num+1);
                     stopService(serviceIntent);
                 }
             }
@@ -111,6 +115,8 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onResume() {
+        num = myPreference.getNum();
+        Log.d("TAG", "onResume");
         init();
         updateUI();
         if (!eventBus.isRegistered(this)){
@@ -141,8 +147,14 @@ public class MainActivity extends AppCompatActivity{
 
     @Override
     protected void onPause() {
+        Log.d("TAG", "onPause");
         eventBus.unregister(this);
         super.onPause();
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     public void onEvent(NotifyLocationEvent notifyLocationEvent) {

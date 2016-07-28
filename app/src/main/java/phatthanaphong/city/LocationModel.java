@@ -10,6 +10,7 @@ public class LocationModel {
     private float accuracy;
     private long time;
     private int id;
+    private int num;
 
     private float angle;
     private String label;
@@ -25,7 +26,9 @@ public class LocationModel {
         this.angle = angle;
     }
 
-    public LocationModel(String label, double latitude,double longitude,float speed,float accuracy,long time, float angle){
+
+    public LocationModel(int num, String label, double latitude, double longitude, float speed, float accuracy, long time, float angle){
+        this.num = num;
         this.label = label;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -34,6 +37,15 @@ public class LocationModel {
         this.time = time;
         this.angle = angle;
     }
+
+    public int getNum() {
+        return num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
     public float getAngle() {
         return angle;
     }

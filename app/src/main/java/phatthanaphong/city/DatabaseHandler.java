@@ -2,11 +2,9 @@ package phatthanaphong.city;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.widget.Toast;
 
 /**
  * Created by phatthanaphong on 26/2/2559.
@@ -24,7 +22,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     private static final String TABLE_LOC = "location";
 
     // Contacts Table Columns names
-    private static final String KEY_ID = "id";
+    private static final String KEY_NUM = "num";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
     private static final String KEY_LABEL = "label";
@@ -44,10 +42,10 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String CREATE_CONTACTS_TABLE = "CREATE TABLE " + TABLE_LOC + "("
-                + KEY_ID + " INTEGER PRIMARY KEY," + KEY_LABEL + " TEXT,"
+                + KEY_NUM + " INTEGER," + KEY_LABEL + " TEXT,"
                 + KEY_LATITUDE + " TEXT," + KEY_LONGITUDE + " TEXT,"
                 + KEY_SPEED + " TEXT," + KEY_ACCURACY + " TEXT,"
-                + KEY_BARING + " TEXT,"+ KEY_TIME + " TEXT" + ");";
+                + KEY_BARING + " TEXT,"+ KEY_TIME + " TEXT PRIMARY KEY" + ");";
         db.execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -68,6 +66,7 @@ public class DatabaseHandler extends SQLiteOpenHelper {
     void addLocation(LocationModel location) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
+        values.put(KEY_NUM,location.getNum());
         values.put(KEY_LABEL,location.getLabel());
         values.put(KEY_LATITUDE, location.getLatitude());
         values.put(KEY_LONGITUDE, location.getLongitude());
@@ -91,8 +90,8 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //    Contact getContact(int id) {
 //        SQLiteDatabase db = this.getReadableDatabase();
 //
-//        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_ID,
-//                        KEY_NAME, KEY_PH_NO }, KEY_ID + "=?",
+//        Cursor cursor = db.query(TABLE_CONTACTS, new String[] { KEY_NUM,
+//                        KEY_NAME, KEY_PH_NO }, KEY_NUM + "=?",
 //                new String[] { String.valueOf(id) }, null, null, null, null);
 //        if (cursor != null)
 //            cursor.moveToFirst();
@@ -137,14 +136,14 @@ public class DatabaseHandler extends SQLiteOpenHelper {
 //        values.put(KEY_PH_NO, contact.getPhoneNumber());
 //
 //        // updating row
-//        return db.update(TABLE_CONTACTS, values, KEY_ID + " = ?",
+//        return db.update(TABLE_CONTACTS, values, KEY_NUM + " = ?",
 //                new String[] { String.valueOf(contact.getID()) });
 //    }
 //
 //    // Deleting single contact
 //    public void deleteContact(Contact contact) {
 //        SQLiteDatabase db = this.getWritableDatabase();
-//        db.delete(TABLE_CONTACTS, KEY_ID + " = ?",
+//        db.delete(TABLE_CONTACTS, KEY_NUM + " = ?",
 //                new String[] { String.valueOf(contact.getID()) });
 //        db.close();
 //    }
