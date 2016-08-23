@@ -11,8 +11,8 @@ UPDATE car SET num = 4 WHERE num = 7
 INSERT INTO Car.location SELECT * FROM "GpsLog 060859".car;
 
 
-car 27
-motor 44
+car 49
+motor 58
 walk 12
 run 3
 bicycle 4
