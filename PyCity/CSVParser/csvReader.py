@@ -25,24 +25,39 @@ with open('/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv') as csvfile:
         else:
             temp = {k: row[k] for k in row.keys() & {'latitude', 'longitude', 'speed', 'bering', 'time', 'accuracy'}}
             each_pos.append(temp)
-# list_speed =[]
-# for car in Car:
-#     speed = [float(s['speed']) for s in car]
-#     list_speed.append(speed)
-
-list_speed = [float(d['speed']) for d in Car[0]]
-
-list_range = list(range(1, 100))
-trace1 = go.Scatter(
-    y = list_speed,
-    mode='markers',
-    marker=dict(
-        size='8',
-        color='rgba(255, 0, 0, .8)',
-        colorscale='Viridis'
+list_speed =[]
+for car in Car:
+    speed = [float(s['speed']) for s in car]
+    list_speed.append(speed)
+ind = 1
+data = []
+for each_speed in list_speed:
+    ind += 1
+    trip = go.Scatter(
+        y=each_speed,
+        mode='markers',
+        marker=dict(
+            size='8',
+            color='rgba(100+ind, 0, 0, .8)',
+            colorscale='Viridis'
+        )
     )
-)
-data = [trace1]
+    data.append(trip)
+
+
+# list_speed = [float(d['speed']) for d in Car[0]]
+#
+# list_range = list(range(1, 100))
+# trace1 = go.Scatter(
+#     y = list_speed,
+#     mode='markers',
+#     marker=dict(
+#         size='8',
+#         color='rgba(100, 0, 0, .8)',
+#         colorscale='Viridis'
+#     )
+# )
+# data = [trace1]
 
 # py.iplot(data, filename='scatter-plot')
 plotly.offline.plot(data, filename='scatter-plot')
