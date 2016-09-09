@@ -29,16 +29,17 @@ list_speed =[]
 for car in Car:
     speed = [float(s['speed']) for s in car]
     list_speed.append(speed)
-ind = 1
+va_c = 155
 data = []
 for each_speed in list_speed:
-    ind += 1
+    va_c += 1
+    co_s = 'rgba('+str(va_c)+',0,0,0.8)'
     trip = go.Scatter(
         y=each_speed,
         mode='markers',
         marker=dict(
             size='8',
-            color='rgba(100+ind, 0, 0, .8)',
+            color=co_s,
             colorscale='Viridis'
         )
     )
