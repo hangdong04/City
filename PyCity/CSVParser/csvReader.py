@@ -11,7 +11,8 @@ plotly.offline.init_notebook_mode()
 
 Car = []
 each_pos = []
-with open('/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv') as csvfile:
+path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
+with open(path) as csvfile:
     reader = csv.DictReader(csvfile)
     ind = 1
     for row in reader:
@@ -31,17 +32,22 @@ for car in Car:
     list_speed.append(speed)
 va_c = 155
 data = []
+i = 1
 for each_speed in list_speed:
     va_c += 1
+    i +=1
     co_s = 'rgba('+str(va_c)+',0,0,0.8)'
-    trip = go.Scatter(
+
+    trip = go.Box(
         y=each_speed,
-        mode='markers',
-        marker=dict(
-            size='8',
-            color=co_s,
-            colorscale='Viridis'
-        )
+        name='trip '+str(i)
+        # ,
+        # mode='markers',
+        # marker=dict(
+        #     size='8',
+        #     color=co_s,
+        #     colorscale='Viridis'
+        # )
     )
     data.append(trip)
 
