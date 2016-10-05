@@ -17,26 +17,15 @@ temp = None
 for car in Car:
     found = 0
     for idx, val in enumerate(car):
-        print(len(car))
-        s = val['speed']
-        inn.append(idx)
-        if float(s) == 0.0:
-            speed.append(s)
-            if found == 1:
-                if idx != len(car)-1:
-                    del speed[len(speed)-1]
-            found = 1
-        else:
-            if found == 1:
-                speed.append(temp)
-            found = 0
-            speed.append(s)
-        temp = s
+        if idx != 0:
+            if idx == 206:
+                print(val)
+            if idx == 207:
+                print(val)
+            if temp > val['time']:
+                print("Del")
+                print(idx,temp,val['time'])
 
 
-    print(speed)
-    print(inn)
+        temp = val['time']
     break
-
-    # speed = [float(s['bering']) for s in car]
-    # car_speed.append(speed)
