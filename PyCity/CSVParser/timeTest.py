@@ -18,14 +18,8 @@ for car in Car:
     found = 0
     for idx, val in enumerate(car):
         if idx != 0:
-            if idx == 206:
-                print(val)
-            if idx == 207:
-                print(val)
             if temp > val['time']:
                 print("Del")
                 print(idx,temp,val['time'])
-
-
         temp = val['time']
     break

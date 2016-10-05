@@ -22,3 +22,5 @@ class Helper:
                             row.keys() & {'latitude', 'longitude', 'speed', 'bering', 'time', 'accuracy'}}
                     each_pos.append(temp)
         return data
+
+
