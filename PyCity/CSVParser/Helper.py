@@ -24,7 +24,6 @@ class Helper:
         return data
 
     def preprocess(self, obj_in):
-
         data = []
         data_list = dict()
         speed = []
@@ -34,7 +33,6 @@ class Helper:
         temp_a = None
         temp_s = None
         for item in obj_in:
-            print(len(item))
             found = 0
             for idx, val in enumerate(item):
                 t = val['time']
@@ -78,11 +76,10 @@ class Helper:
                     del speed[idx]
                     del time[idx]
                     del accuracy[idx]
-
             data_list['speed'] = speed
             data_list['time'] = time
             data_list['accuracy'] = accuracy
-            data.append(data_list)
+            data.append(data_list.copy())
             speed = []
             time = []
             accuracy = []
@@ -100,3 +97,12 @@ class Helper:
             max_value.append(max(item['speed']))
         return max_value
 
+    def avg_speed(self, data):
+        return_data = []
+        for item in data:
+            speed_avg = 0
+            for idx, val in enumerate(item['speed']):
+                if idx != 0:
+                    speed_avg += (float(val) * (int(item['time'][idx]) - int(item['time'][idx - 1])))
+            return_data.append(speed_avg / (int(item['time'][-1]) - int(item['time'][0])))
+        return return_data
