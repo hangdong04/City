@@ -24,6 +24,7 @@ class Helper:
         return data
 
     def preprocess(self, obj_in):
+
         data = []
         data_list = dict()
         speed = []
@@ -33,6 +34,7 @@ class Helper:
         temp_a = None
         temp_s = None
         for item in obj_in:
+            print(len(item))
             found = 0
             for idx, val in enumerate(item):
                 t = val['time']
@@ -85,4 +87,16 @@ class Helper:
             time = []
             accuracy = []
         return data
+
+    def min(self, data):
+        min_value = []
+        for item in data:
+            min_value.append(min(item['speed']))
+        return min_value
+
+    def max(self, data):
+        max_value = []
+        for item in data:
+            max_value.append(max(item['speed']))
+        return max_value
 
