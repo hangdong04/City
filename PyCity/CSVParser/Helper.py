@@ -1,4 +1,5 @@
 import csv
+from CSVParser.Model import Model
 class Helper:
 
     def reader(self, str):
@@ -60,11 +61,13 @@ class Helper:
                 temp_s = s
                 temp_t = t
                 temp_a = a
-
-            while
+            ordered = True
+            while ordered:
+                ordered = False
                 for idx, val in enumerate(time):
                     if idx != 0:
                         if temp_t > val:
+                            ordered = True
                             del speed[idx]
                             del time[idx]
                             del accuracy[idx]
@@ -107,3 +110,16 @@ class Helper:
                     speed_avg += (float(val) * (int(item['time'][idx]) - int(item['time'][idx - 1])))
             return_data.append(speed_avg / (int(item['time'][-1]) - int(item['time'][0])))
         return return_data
+
+    def feature_list(self, max, min, avg, target):
+        data = []
+        label = []
+        for idx in range(len(max)):
+            item = []
+            item.append(max[idx])
+            item.append(min[idx])
+            item.append(avg[idx])
+            label.append(target)
+            data.append(item)
+        model = Model(data, label)
+        return model

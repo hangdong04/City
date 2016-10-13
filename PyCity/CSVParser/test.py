@@ -1,27 +1,51 @@
 from CSVParser.Helper import Helper
 import json
-# car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
-car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
-motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
-bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
-run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
-walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
+# Wndows path
+car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
+motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
+bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
+run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
+walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
+# Linux path
+# car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
+# motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
+# bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
+# run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
+# walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
 
 Helper = Helper()
-Car = Helper.reader(car_path)
-data = Helper.preprocess(Car)
-print(data[6]['time'][209:213])
-temp = None
-for idx,val in enumerate(data[6]['time']):
-    if idx!=0:
-        if temp>val:
-            print("xxx")
-            print(idx)
-    temp = val
 
-# avg_speed =Helper.avg_speed(data)
-# min_speed = Helper.min(data)
-# max_speed = Helper.max(data)
-# print("max",max_speed)
-# print("min",min_speed)
-# print("avg_s",avg_speed)
+Car = Helper.reader(car_path)
+car = Helper.preprocess(Car)
+avg_speed_car = Helper.avg_speed(car)
+min_speed_car = Helper.min(car)
+max_speed_car = Helper.max(car)
+car_data = Helper.feature_list(max_speed_car,min_speed_car,avg_speed_car,'car')
+
+Motor = Helper.reader(motor_path)
+motor = Helper.preprocess(Motor)
+avg_speed_motor = Helper.avg_speed(motor)
+min_speed_motor = Helper.min(motor)
+max_speed_motor = Helper.max(motor)
+motor_data = Helper.feature_list(max_speed_motor,min_speed_motor,avg_speed_motor,'motor')
+
+Bike = Helper.reader(bike_path)
+bike = Helper.preprocess(Bike)
+avg_speed_bike = Helper.avg_speed(bike)
+min_speed_bike = Helper.min(bike)
+max_speed_bike = Helper.max(bike)
+bike_data = Helper.feature_list(max_speed_bike,min_speed_bike,avg_speed_bike,'bike')
+
+Run = Helper.reader(run_path)
+run = Helper.preprocess(Run)
+avg_speed_run = Helper.avg_speed(run)
+min_speed_run = Helper.min(run)
+max_speed_run = Helper.max(run)
+run_data = Helper.feature_list(max_speed_run,min_speed_run,avg_speed_run,'run')
+
+Walk = Helper.reader(walk_path)
+walk = Helper.preprocess(Walk)
+avg_speed_walk = Helper.avg_speed(walk)
+min_speed_walk = Helper.min(walk)
+max_speed_walk = Helper.max(walk)
+walk_data = Helper.feature_list(max_speed_walk,min_speed_walk,avg_speed_walk,'walk')
