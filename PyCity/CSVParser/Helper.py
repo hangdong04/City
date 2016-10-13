@@ -44,9 +44,9 @@ class Helper:
                     accuracy.append(a)
                     if found == 1:
                         if idx != len(item) - 1:
-                            del speed[len(speed) - 1]
-                            del time[len(time) - 1]
-                            del accuracy[len(accuracy) - 1]
+                            del speed[-1]
+                            del time[-1]
+                            del accuracy[-1]
                     found = 1
                 else:
                     if found == 1:
@@ -61,16 +61,17 @@ class Helper:
                 temp_t = t
                 temp_a = a
 
-            for idx, val in enumerate(time):
-                if idx != 0:
-                    if temp_t > val:
-                        del speed[idx]
-                        del time[idx]
-                        del accuracy[idx]
+            while
+                for idx, val in enumerate(time):
+                    if idx != 0:
+                        if temp_t > val:
+                            del speed[idx]
+                            del time[idx]
+                            del accuracy[idx]
+                        else:
+                            temp_t = val
                     else:
                         temp_t = val
-                else:
-                    temp_t = val
             for idx, val in enumerate(accuracy):
                 if float(val) > 200:
                     del speed[idx]

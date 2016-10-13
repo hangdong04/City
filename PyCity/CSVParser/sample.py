@@ -59,7 +59,7 @@ run_speed =[]
 for run in Run:
     speed = [float(s['speed']) for s in run]
     run_speed.append(speed)
-run_plot = go.Box(
+    run_plot = go.Box(
     y=run_speed[1],
     name='Run'
 )
