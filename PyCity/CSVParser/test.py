@@ -52,13 +52,13 @@ min_speed_walk = Helper.min(walk)
 max_speed_walk = Helper.max(walk)
 walk_data = Helper.feature_list(max_speed_walk,min_speed_walk,avg_speed_walk,'walk')
 
-train_data = car_data.data + motor_data.data
-train_target = car_data.target + motor_data.target
+train_data = car_data.data[10:] + motor_data.data[10:]
+train_target = car_data.target[10:] + motor_data.target[10:]
 
 print(len(train_target))
-
+test_data = car_data.data[:10] + motor_data.data[:10]
 dt = tree.DecisionTreeClassifier()
 dt = dt.fit(train_data,train_target)
 #
-# print(dt.predict(motor_data.data))
+print(dt.predict(test_data))
 # print(dt.predict(bike_data.data))
