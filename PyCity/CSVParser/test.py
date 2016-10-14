@@ -1,17 +1,19 @@
 from CSVParser.Helper import Helper
 import json
+from sklearn import tree
+
 # Wndows path
-car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
-motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
-bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
-run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
-walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
+# car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
+# motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
+# bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
+# run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
+# walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
 # Linux path
-# car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
-# motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
-# bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
-# run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
-# walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
+car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
+motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
+bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
+run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
+walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
 
 Helper = Helper()
 
@@ -49,3 +51,14 @@ avg_speed_walk = Helper.avg_speed(walk)
 min_speed_walk = Helper.min(walk)
 max_speed_walk = Helper.max(walk)
 walk_data = Helper.feature_list(max_speed_walk,min_speed_walk,avg_speed_walk,'walk')
+
+train_data = car_data.data + motor_data.data
+train_target = car_data.target + motor_data.target
+
+print(len(train_target))
+
+dt = tree.DecisionTreeClassifier()
+dt = dt.fit(train_data,train_target)
+#
+# print(dt.predict(motor_data.data))
+# print(dt.predict(bike_data.data))
