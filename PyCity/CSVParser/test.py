@@ -1,7 +1,8 @@
 from CSVParser.Helper import Helper
 import json
 from sklearn import tree
-
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import GaussianNB
 # Wndows path
 # car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
 # motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
@@ -55,10 +56,16 @@ walk_data = Helper.feature_list(max_speed_walk,min_speed_walk,avg_speed_walk,'wa
 train_data = car_data.data[10:] + motor_data.data[10:]
 train_target = car_data.target[10:] + motor_data.target[10:]
 
-print(len(train_target))
 test_data = car_data.data[:10] + motor_data.data[:10]
-dt = tree.DecisionTreeClassifier()
-dt = dt.fit(train_data,train_target)
-#
-print(dt.predict(test_data))
-# print(dt.predict(bike_data.data))
+
+# dt = tree.DecisionTreeClassifier()
+# dt = dt.fit(train_data,train_target)
+# print(dt.predict(test_data))
+
+rbf = RandomForestClassifier(n_estimators=10)
+rbf = rbf.fit(train_data, train_target)
+print(rbf.predict(test_data))
+# gnb = GaussianNB()
+# gnb = gnb.fit(train_data, train_target)
+
+# print(gnb.predict(test_data))
