@@ -32,8 +32,8 @@ trace1 = go.Scatter(
 
 data = [trace0]
 data1 = [trace1]
-# plotly.offline.plot(data, filename='line-plot')
-plotly.offline.plot(data1, filename='motor-hcr')
+# plotly.offline.plot(data, filename='car-speed')
+# plotly.offline.plot(data1, filename='motor-speed')
 # avg_speed_car = Helper.avg_speed(car)
 # avg_speed_car_nZ = Helper.avg_speed_nozero(car)
 # min_speed_car = Helper.min(car)
