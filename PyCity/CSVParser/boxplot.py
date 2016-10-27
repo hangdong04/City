@@ -9,13 +9,17 @@ plotly.offline.init_notebook_mode()
 Helper = Helper()
 # plotly.tools.set_credentials_file(username='aetdevinz', api_key='p5gx4csvk1')
 
+car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
+motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
+bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
+run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
+walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
 
-
-car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
-motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
-bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
-run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
-walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
+# car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
+# motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
+# bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
+# run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
+# walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
 # path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
 data = []
 

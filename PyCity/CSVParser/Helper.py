@@ -36,9 +36,9 @@ class Helper:
         for item in obj_in:
             found = 0
             for idx, val in enumerate(item):
-                t = val['time']
-                a = val['accuracy']
-                s = val['speed']
+                t = float(val['time'])
+                a = float(val['accuracy'])
+                s = float(val['speed'])
                 if float(s) == 0.0:
                     speed.append(s)
                     time.append(t)
@@ -111,6 +111,22 @@ class Helper:
             return_data.append(speed_avg / (int(item['time'][-1]) - int(item['time'][0])))
         return return_data
 
+    def avg_speed_nozero(self, data):
+        return_data = []
+        for item in data:
+            speed_avg = 0
+            time = 0
+            prevSpeed = 0
+            for idx, val in enumerate(item['speed']):
+                if not(prevSpeed == 0 and val == 0):
+                    if idx != 0:
+                        dt = (item['time'][idx] - item['time'][idx - 1])
+                        speed_avg += (float(val) * dt)
+                        time += dt
+                prevSpeed = val
+            return_data.append(speed_avg / time)
+        return return_data
+
     def feature_list(self, max, min, avg, target):
         data = []
         label = []
@@ -123,3 +139,14 @@ class Helper:
             data.append(item)
         model = Model(data, label)
         return model
+
+    def time_rescale(self,time):
+        res_time = []
+        init_time = 0
+        for idx, val in enumerate(time):
+            if idx != 0:
+                res_time.append((val-init_time)/1000)
+            else:
+                init_time = val
+                res_time.append(0)
+        return res_time
