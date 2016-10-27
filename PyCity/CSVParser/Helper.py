@@ -30,37 +30,45 @@ class Helper:
         speed = []
         accuracy = []
         time = []
+        bearing = []
         temp_t = None
         temp_a = None
         temp_s = None
+        temp_b = None
         for item in obj_in:
             found = 0
             for idx, val in enumerate(item):
                 t = float(val['time'])
                 a = float(val['accuracy'])
                 s = float(val['speed'])
+                b = float(val['bering'])
                 if float(s) == 0.0:
                     speed.append(s)
                     time.append(t)
                     accuracy.append(a)
+                    bearing.append(b)
                     if found == 1:
                         if idx != len(item) - 1:
                             del speed[-1]
                             del time[-1]
                             del accuracy[-1]
+                            del bearing[-1]
                     found = 1
                 else:
                     if found == 1:
                         speed.append(temp_s)
                         time.append(temp_t)
                         accuracy.append(temp_a)
+                        bearing.append(temp_b)
                     found = 0
                     speed.append(s)
                     time.append(t)
                     accuracy.append(a)
+                    bearing.append(temp_b)
                 temp_s = s
                 temp_t = t
                 temp_a = a
+                temp_b = b
             ordered = True
             while ordered:
                 ordered = False
@@ -71,6 +79,7 @@ class Helper:
                             del speed[idx]
                             del time[idx]
                             del accuracy[idx]
+                            del bearing[idx]
                         else:
                             temp_t = val
                     else:
@@ -80,13 +89,16 @@ class Helper:
                     del speed[idx]
                     del time[idx]
                     del accuracy[idx]
+                    del bearing[idx]
             data_list['speed'] = speed
             data_list['time'] = time
             data_list['accuracy'] = accuracy
+            data_list['bearing'] = bearing
             data.append(data_list.copy())
             speed = []
             time = []
             accuracy = []
+            bearing = []
         return data
 
     def min(self, data):
