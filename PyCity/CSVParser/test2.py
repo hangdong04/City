@@ -34,6 +34,22 @@ data = [trace0]
 data1 = [trace1]
 # plotly.offline.plot(data, filename='car-speed')
 # plotly.offline.plot(data1, filename='motor-speed')
+trace2 = go.Scatter(
+    y = car[0].get('bearing'),
+    x = Helper.time_rescale(car[0].get('time')),
+    mode = 'lines',
+    name = 'lines'
+)
+data2 = [trace2]
+trace3 = go.Scatter(
+    y = motor[7].get('bearing'),
+    x = Helper.time_rescale(motor[7].get('time')),
+    mode = 'lines',
+    name = 'lines'
+)
+data3 = [trace3]
+plotly.offline.plot(data2, filename='car-hcr')
+plotly.offline.plot(data3, filename='motor-hcr')
 # avg_speed_car = Helper.avg_speed(car)
 # avg_speed_car_nZ = Helper.avg_speed_nozero(car)
 # min_speed_car = Helper.min(car)
