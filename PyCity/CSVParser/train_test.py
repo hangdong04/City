@@ -63,10 +63,11 @@ test_data = car_data.data[:10] + motor_data.data[:10]
 # dt = dt.fit(train_data,train_target)
 # print(dt.predict(test_data))
 
-rbf = RandomForestClassifier(n_estimators=10)
-rbf = rbf.fit(train_data, train_target)
-print(rbf.predict(test_data))
+# rbf = RandomForestClassifier(n_estimators=10)
+# rbf = rbf.fit(train_data, train_target)
+# print(rbf.predict(test_data))
+
 # gnb = GaussianNB()
 # gnb = gnb.fit(train_data, train_target)
-
+#
 # print(gnb.predict(test_data))

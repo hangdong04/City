@@ -1,5 +1,6 @@
 import csv
 from CSVParser.Model import Model
+import numpy
 class Helper:
 
     def reader(self, str):
@@ -112,6 +113,13 @@ class Helper:
         for item in data:
             max_value.append(max(item['speed']))
         return max_value
+
+    def std(self, data):
+        std_value = []
+        for item in data:
+            std = numpy.std(item['speed'])
+            std_value.append(std)
+        return std_value
 
     def avg_speed(self, data):
         return_data = []
