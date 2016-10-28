@@ -9,17 +9,17 @@ plotly.offline.init_notebook_mode()
 Helper = Helper()
 # plotly.tools.set_credentials_file(username='aetdevinz', api_key='p5gx4csvk1')
 
-car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
-motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
-bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
-run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
-walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
+# car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
+# motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
+# bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
+# run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
+# walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
 
-# car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
-# motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
-# bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
-# run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
-# walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
+car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
+motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
+bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
+run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
+walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
 # path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
 data = []
 
@@ -64,7 +64,7 @@ for run in Run:
     speed = [float(s['speed']) for s in run]
     run_speed.append(speed)
     run_plot = go.Box(
-    y=run_speed[1],
+    y=run_speed[0],
     name='Run'
 )
 data.append(run_plot)
@@ -79,6 +79,10 @@ walk_plot = go.Box(
     name='Walk'
 )
 data.append(walk_plot)
-
-plotly.offline.plot(data, filename='scatter-plot')
+layout = dict(title = 'Speed in the trip',
+              xaxis = dict(title = 'Transportation Mode'),
+              yaxis = dict(title = 'Speed (km/hr)'),
+              )
+fig = dict(data = data, layout = layout)
+plotly.offline.plot(fig, filename='box-plot')
 

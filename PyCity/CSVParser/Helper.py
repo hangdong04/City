@@ -136,6 +136,8 @@ class Helper:
                         speed_avg += (float(val) * dt)
                         time += dt
                 prevSpeed = val
+            if time == 0:
+                time = 1
             return_data.append(speed_avg / time)
         return return_data
 
