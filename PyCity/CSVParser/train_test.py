@@ -11,12 +11,11 @@ from sklearn.naive_bayes import GaussianNB
 # run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
 # walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
 # Linux path
-car_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Car.csv'
-motor_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Motorcycle.csv'
-bike_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Bicycle.csv'
-run_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Run.csv'
-walk_path = '/home/phatthanapong/Desktop/City/PyCity/Data/Walk.csv'
-
+car_path = '/home/aaa/Desktop/City/PyCity/Data/Car.csv'
+motor_path = '/home/aaa/Desktop/City/PyCity/Data/Motorcycle.csv'
+bike_path = '/home/aaa/Desktop/City/PyCity/Data/Bicycle.csv'
+run_path = '/home/aaa/Desktop/City/PyCity/Data/Run.csv'
+walk_path = '/home/aaa/Desktop/City/PyCity/Data/Walk.csv'
 Helper = Helper()
 
 Car = Helper.reader(car_path)
@@ -59,15 +58,15 @@ train_target = car_data.target[10:] + motor_data.target[10:]
 
 test_data = car_data.data[:10] + motor_data.data[:10]
 
-# dt = tree.DecisionTreeClassifier()
-# dt = dt.fit(train_data,train_target)
-# print(dt.predict(test_data))
+dt = tree.DecisionTreeClassifier()
+dt = dt.fit(train_data,train_target)
+print(dt.predict(test_data))
 
-# rbf = RandomForestClassifier(n_estimators=10)
-# rbf = rbf.fit(train_data, train_target)
-# print(rbf.predict(test_data))
+rbf = RandomForestClassifier(n_estimators=10)
+rbf = rbf.fit(train_data, train_target)
+print(rbf.predict(test_data))
 
-# gnb = GaussianNB()
-# gnb = gnb.fit(train_data, train_target)
-#
-# print(gnb.predict(test_data))
+gnb = GaussianNB()
+gnb = gnb.fit(train_data, train_target)
+
+print(gnb.predict(test_data))
