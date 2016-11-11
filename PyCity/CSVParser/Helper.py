@@ -149,14 +149,15 @@ class Helper:
             return_data.append(speed_avg / time)
         return return_data
 
-    def feature_list(self, max, min, avg, target):
+    def feature_list(self, max, std, avg, avg_nz, target):
         data = []
         label = []
         for idx in range(len(max)):
             item = []
             item.append(max[idx])
-            item.append(min[idx])
+            item.append(std[idx])
             item.append(avg[idx])
+            item.append(avg_nz[idx])
             label.append(target)
             data.append(item)
         model = Model(data, label)
