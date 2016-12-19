@@ -1,23 +1,25 @@
 from CSVParser.Helper import Helper
 import json
-
+import matplotlib.pyplot as plt
+import numpy
 from sklearn import tree
+from sklearn.metrics import confusion_matrix
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 # Wndows path
 
-car_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Car.csv'
-motor_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Motorcycle.csv'
-bike_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Bicycle.csv'
-run_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Run.csv'
-walk_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Walk.csv'
+# car_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Car.csv'
+# motor_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Motorcycle.csv'
+# bike_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Bicycle.csv'
+# run_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Run.csv'
+# walk_path = 'C:\\Users\Phatt\Desktop\City\PyCity\Data\Walk.csv'
 # Linux path
-# car_path = '/home/aaa/Desktop/City/PyCity/Data/Car.csv'
-# motor_path = '/home/aaa/Desktop/City/PyCity/Data/Motorcycle.csv'
-# bike_path = '/home/aaa/Desktop/City/PyCity/Data/Bicycle.csv'
-# run_path = '/home/aaa/Desktop/City/PyCity/Data/Run.csv'
-# walk_path = '/home/aaa/Desktop/City/PyCity/Data/Walk.csv'
+car_path = '/home/aaa/Desktop/City/PyCity/Data/Car.csv'
+motor_path = '/home/aaa/Desktop/City/PyCity/Data/Motorcycle.csv'
+bike_path = '/home/aaa/Desktop/City/PyCity/Data/Bicycle.csv'
+run_path = '/home/aaa/Desktop/City/PyCity/Data/Run.csv'
+walk_path = '/home/aaa/Desktop/City/PyCity/Data/Walk.csv'
 Helper = Helper()
 
 Car = Helper.reader(car_path)
@@ -77,27 +79,39 @@ print(walk_data.data[:4])
 print(walk_data.data[3:4])
 
 train_data = car_data.data[:80] + motor_data.data[:80] + walk_data.data[:80] + bike_data.data[:80] + run_data.data[:80]
-train_target = car_data.target[:80] + motor_data.target[:80] + walk_data.target[:80] + bike_data.target[:80] + run_data.data[:80]
-print(len(train_data))
-print(len(train_target))
+train_target = car_data.target[:80] + motor_data.target[:80] + walk_data.target[:80] + bike_data.target[:80] + run_data.target[:80]
+
 test_data = car_data.data[80:100] + motor_data.data[80:100] + walk_data.data[80:100] + bike_data.data[80:100] + run_data.data[80:100]
+test_target = car_data.target[80:100] + motor_data.target[80:100] + walk_data.target[80:100] + bike_data.target[80:100] + run_data.target[80:100]
 
-
+#
 print(len(test_data))
-
+labels=["car", "motor", "bike", "run", "walk"]
+nlabel = numpy.asarray(labels)
 dt = tree.DecisionTreeClassifier()
 dt = dt.fit(train_data, train_target)
-print(dt.predict(test_data))
+y_pred = dt.predict(test_data)
+print(y_pred)
+cfm = confusion_matrix(test_target,y_pred)
+print(cfm)
 #
-# rbf = RandomForestClassifier(n_estimators=10)
-# rbf = rbf.fit(train_data, train_target)
-# print(rbf.predict(test_data))
-#
-# gnb = GaussianNB()
-# gnb = gnb.fit(train_data, train_target)
-#
-# print(gnb.predict(test_data))
-#
-# nclf = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(5, 2), random_state=1)
+rbf = RandomForestClassifier(n_estimators=10)
+rbf = rbf.fit(train_data, train_target)
+y_pred = rbf.predict(test_data)
+print(y_pred)
+cfm = confusion_matrix(test_target,y_pred)
+print(cfm)
+
+gnb = GaussianNB()
+gnb = gnb.fit(train_data, train_target)
+y_pred = gnb.predict(test_data)
+print(y_pred)
+cfm = confusion_matrix(test_target,y_pred)
+print(cfm)
+
+# nclf = MLPClassifier(solver='lbfgs', alpha=1e-5,hidden_layer_sizes=(4, 2), random_state=1)
 # nclf.fit(train_data,train_target)
-# print(nclf.predict(test_data))
+# y_pred = nclf.predict(test_data)
+# print(y_pred)
+# cfm = confusion_matrix(test_target,y_pred)
+# print(cfm)
