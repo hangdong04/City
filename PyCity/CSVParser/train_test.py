@@ -9,11 +9,11 @@ from sklearn.naive_bayes import GaussianNB
 from sklearn.neural_network import MLPClassifier
 # Wndows path
 
-car_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Car.csv'
-motor_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Motorcycle.csv'
-bike_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Bicycle.csv'
-run_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Run.csv'
-walk_path = 'C:\\Users\Phatthanaphong\Desktop\City\PyCity\Data\Walk.csv'
+car_path = 'C:\\Users\phatt\Desktop\City\PyCity\Data\Car.csv'
+motor_path = 'C:\\Users\phatt\Desktop\City\PyCity\Data\Motorcycle.csv'
+bike_path = 'C:\\Users\phatt\Desktop\City\PyCity\Data\Bicycle.csv'
+run_path = 'C:\\Users\phatt\Desktop\City\PyCity\Data\Run.csv'
+walk_path = 'C:\\Users\phatt\Desktop\City\PyCity\Data\Walk.csv'
 # Linux path
 # car_path = '/home/aaa/Desktop/City/PyCity/Data/Car.csv'
 # motor_path = '/home/aaa/Desktop/City/PyCity/Data/Motorcycle.csv'
